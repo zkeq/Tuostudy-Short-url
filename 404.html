@@ -109,6 +109,7 @@ ajaxPost(titleUrl)
                 //在这里对获取的数据经常操作
                 console.log(OriginalFromActivity)
                 url = window.location.href.split('/').pop()
+                url = url.replace('?native.theme=1', '')
                 long = OriginalFromActivity[url]
                 if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
                      long = 'https://tuostudy.vercel.app'}
