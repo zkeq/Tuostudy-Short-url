@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-from email.quoprimime import unquote
 import json
 import requests
 from http.server import BaseHTTPRequestHandler
@@ -18,7 +17,6 @@ def url_2_html(url):
 
 
 def get_308(name):
-    name = unquote(name, 'utf-8')
     url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
     r = requests.get(url)
     _data = json.loads(r.text)
