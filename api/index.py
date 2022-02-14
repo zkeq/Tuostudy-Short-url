@@ -11,7 +11,7 @@ def read_file(file_name):
 
 
 def url_2_html(url):
-    html_file = read_file('./api/tuostudy/temp.html')
+    html_file = read_file('./api/temp.html')
     html_file = html_file.replace('{{url}}', url)
     return html_file
 
