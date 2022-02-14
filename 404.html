@@ -10,8 +10,112 @@
 <body class='typora-export os-windows'><div class='typora-export-content'>
 <div id='write'  class=''><h1 id='🚀短链服务🚀'><span>🚀短链服务🚀</span></h1><h4 id='欢迎使用学习资源库'><span>欢迎使用学习资源库</span></h4><ul><li><span>当您看到此页面时，短链服务应该已经正常工作了。</span></li><li><span>做下载文件短链时，此服务做中转页功能。</span></li><li><span>若您看到本页面，说明您访问的是文件直链，并且此文件已经开始下载。</span></li></ul><h6 id='若没有正常下载'><span>若没有正常下载</span></h6><ul><li><span>请刷新。</span></li><li><span>或者</span><a href='https://tuostudy.vercel.app/'><span>返回图欧学习资源库主页</span></a><span>找到你想下载的资源。</span></li></ul></div></div>
 <!-- js 跳转 -->
+<!-- <script>
+//ajax 对象
+function ajaxObject() {
+    var xmlHttp;
+    try {
+        // Firefox, Opera 8.0+, Safari
+        xmlHttp = new XMLHttpRequest();
+        } 
+    catch (e) {
+        // Internet Explorer
+        try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+            try {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {
+                window.location.replace("https://tuostudy.vercel.app")
+            }
+        }
+    }
+    return xmlHttp;
+}
+ 
+// ajax post请求：
+function ajaxPost ( url  ) {
+    var ajax = ajaxObject();
+    ajax.open( "get" , url , true );
+    ajax.setRequestHeader( "Content-Type" , "application/json;charset=utf-8" );
+    ajax.onreadystatechange = function () {
+        if( ajax.readyState == 4 ) {
+            if( ajax.status == 200 ) {
+                var response = JSON.parse(ajax.responseText) 
+                console.log(response)
+                url = window.location.href.split('?')[1]
+                long = response[url]
+                if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
+                     long = 'https://tuostudy.vercel.app'}
+                console.log(long)
+                window.location.replace(long)
+            }
+ 
+        }
+ 
+    }
+    ajax.send( null );
+ 
+}
+var titleUrl='https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
+ajaxPost(titleUrl)
+</script> -->
 <script>
-window.location.replace("https://tuostudy.vercel.app");
+    /* 封装ajax函数
+ * @param {string}opt.type http连接的方式，包括POST和GET两种方式
+ * @param {string}opt.url 发送请求的url
+ * @param {boolean}opt.async 是否为异步请求，true为异步的，false为同步的
+ * @param {object}opt.data 发送的参数，格式为对象类型
+ * @param {function}opt.success ajax发送并接收成功调用的回调函数
+ */
+ function ajax(opt) {
+        opt = opt || {};
+        opt.method = opt.method.toUpperCase() || 'POST';
+        opt.url = opt.url || '';
+        opt.async = opt.async || true;
+        opt.data = opt.data || null;
+        opt.success = opt.success || function () {};
+        var xmlHttp = null;
+        if (XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
+        }
+        else {
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+        }var params = [];
+        for (var key in opt.data){
+            params.push(key + '=' + opt.data[key]);
+        }
+        var postData = params.join('&');
+        if (opt.method.toUpperCase() === 'POST') {
+            xmlHttp.open(opt.method, opt.url, opt.async);
+            xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+            xmlHttp.send(postData);
+        }
+        else if (opt.method.toUpperCase() === 'GET') {
+            xmlHttp.open(opt.method, opt.url + '?' + postData, opt.async);
+            xmlHttp.send(null);
+        } 
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                opt.success(JSON.parse( xmlHttp.responseText));//如果不是json数据可以去掉json转换
+            }
+        };
+    }
+
+    ajax({
+            method: 'GET',
+            url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json',
+            success: function (OriginalFromActivity) {
+                //在这里对获取的数据经常操作
+                console.log(OriginalFromActivity)
+                url = window.location.href.split('/')[1]
+                long = OriginalFromActivity[url]
+                if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
+                     long = 'https://tuostudy.vercel.app'}
+                console.log(long)
+                window.location.replace(long)
+                }
+ })
 </script>
 </body>
 </html>
