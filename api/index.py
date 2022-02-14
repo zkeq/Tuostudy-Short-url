@@ -31,8 +31,11 @@ def get_308(name):
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path
-        user = path.split('?')[1]
-        data = get_308(user)
+        try:
+            short = path.split('?')[1]
+        except IndexError:
+            short = ''
+        data = get_308(short)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Content-type', 'text/html; charset=utf-8')
