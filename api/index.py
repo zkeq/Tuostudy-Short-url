@@ -13,6 +13,7 @@ def read_file(file_name):
 def url_2_html(url):
     html_file = read_file('./api/temp.html')
     html_file = html_file.replace('{{url}}', url)
+    print(url)
     return html_file
 
 
@@ -35,6 +36,7 @@ class handler(BaseHTTPRequestHandler):
             short = path.split('?')[1]
         except IndexError:
             short = ''
+        print(short)
         data = get_308(short)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
