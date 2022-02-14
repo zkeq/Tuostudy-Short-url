@@ -11,7 +11,55 @@
 <div id='write'  class=''><h1 id='🚀短链服务🚀'><span>🚀短链服务🚀</span></h1><h4 id='欢迎使用学习资源库'><span>欢迎使用学习资源库</span></h4><ul><li><span>当您看到此页面时，短链服务应该已经正常工作了。</span></li><li><span>做下载文件短链时，此服务做中转页功能。</span></li><li><span>若您看到本页面，说明您访问的是文件直链，并且此文件已经开始下载。</span></li></ul><h6 id='若没有正常下载'><span>若没有正常下载</span></h6><ul><li><span>请刷新。</span></li><li><span>或者</span><a href='https://tuostudy.vercel.app/'><span>返回图欧学习资源库主页</span></a><span>找到你想下载的资源。</span></li></ul></div></div>
 <!-- js 跳转 -->
 <script>
-window.location.replace("https://tuostudy.vercel.app");
+        //ajax 对象
+function ajaxObject() {
+    var xmlHttp;
+    try {
+        // Firefox, Opera 8.0+, Safari
+        xmlHttp = new XMLHttpRequest();
+        } 
+    catch (e) {
+        // Internet Explorer
+        try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+            try {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {
+                alert("您的浏览器不支持AJAX！");
+                return false;
+            }
+        }
+    }
+    return xmlHttp;
+}
+ 
+// ajax post请求：
+function ajaxPost ( url  ) {
+    var ajax = ajaxObject();
+    ajax.open( "get" , url , true );
+    ajax.setRequestHeader( "Content-Type" , "application/json;charset=utf-8" );
+    ajax.onreadystatechange = function () {
+        if( ajax.readyState == 4 ) {
+            if( ajax.status == 200 ) {
+                var response = JSON.parse(ajax.responseText) 
+                console.log(response)
+                url = window.location.href.split('?')[1]
+                long = response[url]
+                if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
+                     long = 'https://tuostudy.vercel.app'}
+                console.log(long)
+                window.location.replace(long)
+            }
+ 
+        }
+ 
+    }
+    ajax.send( null );
+ 
+}
+var titleUrl='https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
+ajaxPost(titleUrl)
 </script>
 </body>
 </html>
