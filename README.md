@@ -63,6 +63,11 @@
 
 - 请在 `图欧君短链生成器-v3.2`中进行后续操作，操作完成后将 `data.json ` 再次上传即可。
 
+#### 另一种思路（目前已弃坑）
+
+- 利用 `vercel` 的云函数，使用 `python` 渲染完成文件后返回前端
+- 相关源码：[zkeq/Tuostudy-Short-url: 短链服务 (github.com)](https://github.com/zkeq/Tuostudy-Short-url/tree/main/api)
+
 #### 源码以及相关链接
 
 | 序号 | 说明                   | 链接                                       |
