@@ -4,6 +4,9 @@ import os
 import time
 import hashlib
 from prettytable import PrettyTable
+import textwrap
+from prettytable import DOUBLE_BORDER
+import urllib.parse
 
 
 # 读取json文件
@@ -116,9 +119,13 @@ def hash_loop():
 
 
 def print_table(data_json):
-    table = PrettyTable(['编号', '短链', '长链'])
+    table = PrettyTable(['编号', '短链', '长链 (经过解码后的)（请 全屏查阅 本表格）'])
     _keys = list(data_json.keys())
     _values = list(data_json.values())
+    for i in range(len(_values)):
+        _values[i] = urllib.parse.unquote(_values[i])
+        _values[i] = textwrap.fill(_values[i], width=70)
+    table.set_style(DOUBLE_BORDER)
     for i in range(len(_keys)):
         table.add_row([i+1, 'https://tuo.icodeq.com/' + _keys[i], _values[i]])
     print(table)
