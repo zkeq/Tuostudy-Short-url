@@ -69,5 +69,5 @@
 | :--: | ---------------------- | ------------------------------------------ |
 |  1   | `Github` 仓库 (会更新) | https://github.com/zkeq/Tuostudy-Short-url |
 |  2   | `Gitee` 仓库 (会更新)  | https://gitee.com/zkeq/Tuostudy-Short-url  |
-|  3   | 本文PDF格式     | https://the-rapist.lanzoul.com/iDzgM003x1yh  |
+|  3   | 本文PDF格式     | https://lanzoul.com/iDzgM003x1yh  |
 
