@@ -1,5 +1,7 @@
 #### 🚀自己写的短链网址前后端源码🚀
 
+> 示例地址： http://tuo.icodeq.com/dream
+
 ##### 界面
 
 ![1](https://p18.qhimg.com/t01220de52b24dc1415.png)
@@ -42,7 +44,7 @@
 
 2. 修改 网页前端，改成自己喜欢的样子
 3. 将网页部署到 `github` 或者 `gitee` 或者 `vercel` 上面
-4. 打开 `图欧君短链生成器-v3.2`
+4. 打开 在 [图欧君短链生成器-v3.2](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v3.2`, 或者直接运行 `/python-CLI` 目录下的源码
 5. 根据提示开始添加短链
 
 ```cmd
