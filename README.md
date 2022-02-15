@@ -48,7 +48,7 @@
 
 3. 将网页部署到 `github` 或者 `gitee` 或者 `vercel` 上面
 
-4. 打开 在 [图欧君短链生成器-v3.2](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v3.2`, 或者直接运行 `/python-CLI` 目录下的源码
+4. 打开 在 [图欧君短链生成器-v3.x](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v3.x`, 或者直接运行 `/python-CLI` 目录下的源码
 
 5. 根据提示开始添加短链
 
