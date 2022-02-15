@@ -5,6 +5,9 @@
 <meta name="referrer" content="no-referrer">
 <link rel="stylesheet" href="../index.css">
 <link rel="shortcut icon" href="/favicon.ico">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
 <title>🚀短链服务🚀</title>
 </head>
 <body class='typora-export os-windows'><div class='typora-export-content'>
@@ -105,6 +108,11 @@ ajaxPost(titleUrl)
     ajax({
             method: 'GET',
             url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json',
+            cache:false, 
+            beforeSend: function(xmlHttp){ 
+                xmlHttp.setRequestHeader("If-Modified-Since","0"); 
+                xmlHttp.setRequestHeader("Cache-Control","no-cache");
+            },
             success: function (OriginalFromActivity) {
                 //在这里对获取的数据经常操作
                 console.log(OriginalFromActivity)
