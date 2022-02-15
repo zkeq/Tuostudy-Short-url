@@ -127,7 +127,7 @@ def print_table(data_json):
         _values[i] = textwrap.fill(_values[i], width=70)
     table.set_style(DOUBLE_BORDER)
     for i in range(len(_keys)):
-        table.add_row([i+1, 'https://tuo.icodeq.com/' + _keys[i], _values[i]])
+        table.add_row([i + 1, 'https://tuo.icodeq.com/' + _keys[i], _values[i]])
     print(table)
     return _keys
 
@@ -144,7 +144,7 @@ def replace_mode():
     print('您当前选择的短链为: {0}'.format(_keys[int(data_line) - 1]))
     del_or_rep = input('您要执行的操作是？\n\n1. 删除 2. 更新\n\n请输入您要执行的操作:')
     if del_or_rep == '1':
-        data_json.pop(_keys[int(data_line)-1])
+        data_json.pop(_keys[int(data_line) - 1])
         print('您当前选择的短链为: {0}'.format(_keys[int(data_line) - 1]))
         print('---------------------删除成功---------------------')
         write_txt('address.txt', '------------------------------------\n')
@@ -172,13 +172,27 @@ def mode_see():
     else:
         data_json = {}
     print_table(data_json)
-    input('-------按回车键回到菜单-------')
+    print('-------请输入代码-----------')
+    print('------- 1.通过短链搜索-------')
+    print('------- 2.退出-------------')
+    num = input('请输入：')
+    data_json_new = {}
+    if num == '1':
+        _str = input('请输入您要查询的短链（可只包含部分）:')
+        for i in data_json.keys():
+            if _str in i:
+                data_json_new[i] = data_json.get(i)
+        # print(data_json_new)
+        print_table(data_json_new)
+        input('输入回车键退出')
+    elif num == '2':
+        pass
 
 
 if __name__ == '__main__':
     while True:
         print('-' * 27 + '\n')
-        print('欢迎使用短链转换工具！'+ '\n')
+        print('欢迎使用短链转换工具！' + '\n')
         print('-' * 27)
         _mode = input('本工具有四种模式\n\n1. 自定义生成短链\n2. 设置要生成的短链位数 ，自动生成短链\n3. 删除或修改短链模式\n4. 查阅模式（只读模式）\n0. 退出\n\n请输入模式：')
         print('-' * 27)
