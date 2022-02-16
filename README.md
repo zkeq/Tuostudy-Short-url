@@ -33,7 +33,7 @@
 }
 ```
 
-##### 代码 (若不使用 OSS ，请使用 3.5 版本)
+##### 代码 (若不使用 OSS ，请使用 local 版本)
 
 - [zkeq/Tuostudy-Short-url: 短链服务 (github.com)](https://github.com/zkeq/Tuostudy-Short-url)
 
@@ -67,7 +67,7 @@
 
 4. 打开 在 [图欧君短链生成器-v4.x](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v4.x`, 或者直接运行 `/python-CLI` 目录下的源码
 
-5. 根据提示开始添加短链 （OSS 详情设置请参阅官网配置，若不是使用的 OSS ，请使用 3.5 版本）
+5. 根据提示开始添加短链 （OSS 详情设置请参阅官网配置，若不是使用的 OSS ，请使用 local 版本）
 
 ```cmd
 本工具有四种模式
