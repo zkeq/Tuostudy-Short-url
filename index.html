@@ -107,7 +107,7 @@ ajaxPost(titleUrl)
 
     ajax({
             method: 'GET',
-            url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json',
+            url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json?'+ parseInt(Math.random()*10000000000000000),
             cache:false, 
             beforeSend: function(xmlHttp){ 
                 xmlHttp.setRequestHeader("If-Modified-Since","0"); 
