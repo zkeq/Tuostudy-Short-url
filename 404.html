@@ -107,8 +107,8 @@ ajaxPost(titleUrl)  // 这里的代码 不 是 我 写 的  https://blog.csdn.ne
     }
 
     ajax({
-            method: 'GET',
-            url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json',  // 使用前请将这行数据替换为你的源
+            method: 'GET',                                                   // 随机数处理缓存
+            url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json?' + parseInt(Math.random()*10000000000000000),  // 使用前请将这行数据替换为你的源
             cache:false,   // 清除缓存
             beforeSend: function(xmlHttp){ 
                 xmlHttp.setRequestHeader("If-Modified-Since","0");   // 清除缓存
