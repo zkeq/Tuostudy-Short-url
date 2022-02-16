@@ -7,10 +7,54 @@ from prettytable import PrettyTable
 import textwrap
 from prettytable import DOUBLE_BORDER
 import urllib.parse
+import oss2
+
+
+def oss_login(config_list):
+    AK = config_list.get('AK')
+    SK = config_list.get('SK')
+    BUCKET_NAME = config_list.get('BUCKET_NAME')
+    Endpoint = config_list.get('Endpoint')
+    auth = oss2.Auth(AK, SK)
+    _bucket = oss2.Bucket(auth, Endpoint, BUCKET_NAME)
+    return _bucket
+
+
+def oss_config_init():
+    AK = input('请输入AccessKeyId:')
+    SK = input('请输入AccessKeySecret:')
+    BUCKET_NAME = input('请输入BucketName:')
+    Endpoint = input('请输入Endpoint:')
+    # 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录RAM控制台创建RAM账号。
+    _config_dict = {'AK': AK, 'SK': SK, 'BUCKET_NAME': BUCKET_NAME, 'Endpoint': Endpoint}
+    with open('oss_config.json', 'w', encoding='utf-8') as f:
+        config_file = json.dumps(_config_dict)
+        f.write(config_file)
+    return _config_dict
+
+
+def oss_config_read():
+    with open('oss_config.json', 'r', encoding='utf-8') as f:
+        _config_dict = json.load(f)
+        return _config_dict
+
+
+config_exists = os.path.exists('oss_config.json')
+print('监测配置文件是否存在', config_exists)
+
+if config_exists:
+    config_dict = oss_config_read()
+else:
+    config_dict = oss_config_init()
+
+
+bucket = oss_login(config_dict)
 
 
 # 读取json文件
 def read_json(file_name):
+    # 下载Object到本地文件，并保存到指定的本地路径D:\\localpath\\examplefile.txt。如果指定的本地文件存在会覆盖，不存在则新建。
+    bucket.get_object_to_file(file_name, file_name)
     with open(file_name, 'r', encoding='utf-8') as f:
         try:
             data = json.load(f)
@@ -23,6 +67,7 @@ def read_json(file_name):
 def write_json(file_name, _data):
     with open(file_name, 'w+', encoding='utf-8') as f:
         json.dump(_data, f, ensure_ascii=False)
+    bucket.put_object_from_file(file_name, file_name)
 
 
 # 写入 TXT 文件
@@ -33,10 +78,7 @@ def write_txt(file_name, _data):
 
 def user_loop():
     # 判断是否存在文件
-    if os.path.exists('data.json'):
-        data_json = read_json('data.json')
-    else:
-        data_json = {}
+    data_json = read_json('data.json')
     data = str(input('请输入短链（例如 abc)：'))
     _data = data
     while data_json.get(_data):
@@ -60,9 +102,7 @@ def user_loop():
     data_json[data] = url
     write_json('data.json', data_json)
     print('转换成功！\n')
-    print('请将本文件夹下的 data.json 文件上传到 OSS！\n')
-    print('下次需要追加内容时 请确保之前生成的 data.json 文件在同一目录！\n')
-    print('否则之前生成的数据就会丢失\n')
+    print('本工具自动同步 OSS！\n')
     print('在本目录的 address.txt 文件中可看到详细信息 ！\n')
     url_finale = '您本次生成的短链为：' + 'https://tuo.icodeq.com/' + data + '\n'
     print(url_finale)
@@ -91,20 +131,14 @@ def hash_loop():
     print('-' * 50)
     print('-' * 50)
     print('-' * 50)
-    # 判断是否存在文件
-    if os.path.exists('data.json'):
-        data_json = read_json('data.json')
-    else:
-        data_json = {}
+    data_json = read_json('data.json')
     # 如果字典中存在该数据
     while data_json.get(data_hash):
         data_hash = time_2_hash(data)
     data_json[data_hash] = url
     write_json('data.json', data_json)
     print('转换成功！\n')
-    print('请将本文件夹下的 data.json 文件上传到 OSS！\n')
-    print('下次需要追加内容时 请确保之前生成的 data.json 文件在同一目录！\n')
-    print('否则之前生成的数据就会丢失\n')
+    print('本工具自动同步 OSS！\n')
     print('在本目录的 address.txt 文件中可看到详细信息 ！\n')
     url_finale = '您本次生成的短链为：' + 'https://tuo.icodeq.com/' + data_hash + '\n'
     print(url_finale)
@@ -138,10 +172,7 @@ def print_table(data_json):
 
 
 def get_now_id():
-    if os.path.exists('data.json'):
-        data_json = read_json('data.json')
-    else:
-        data_json = {}
+    data_json = read_json('data.json')
     keys = list(data_json.keys())
     keys_list = dict(enumerate(keys, start=1))
     _keys_list = {}
@@ -152,16 +183,13 @@ def get_now_id():
 
 def replace_mode():
     print('当前的所有短链为：')
-    if os.path.exists('data.json'):
-        data_json = read_json('data.json')
-    else:
-        data_json = {}
+    data_json = read_json('data.json')
     _keys = print_table(data_json)
     data_line = input('请输入您要操作的编号或 输入0 返回菜单:')
     if data_line == '0':
         return 0
     try:
-        temp = _keys[int(data_line)]
+        temp = _keys[int(data_line) - 1]
     except ValueError and IndexError:
         print('数据未获取到，请重新输入！！')
         return 0
@@ -192,10 +220,7 @@ def replace_mode():
 
 
 def mode_see():
-    if os.path.exists('data.json'):
-        data_json = read_json('data.json')
-    else:
-        data_json = {}
+    data_json = read_json('data.json')
     print_table(data_json)
     print('-------请输入代码-----------')
     print('------- 1.通过短链搜索-------')
@@ -217,7 +242,7 @@ def mode_see():
 if __name__ == '__main__':
     while True:
         print('-' * 27 + '\n')
-        print('欢迎使用短链转换工具！' + '\n')
+        print('欢迎使用短链转换工具！(！！在线版！！)' + '\n')
         print('-' * 27)
         _mode = input('本工具有四种模式\n\n1. 自定义生成短链\n2. 设置要生成的短链位数 ，自动生成短链\n3. 删除或修改短链模式\n4. 查阅模式（只读模式）\n0. 退出\n\n请输入模式：')
         print('-' * 27)
