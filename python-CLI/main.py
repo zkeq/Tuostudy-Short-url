@@ -122,14 +122,32 @@ def print_table(data_json):
     table = PrettyTable(['编号', '短链', '长链 (经过解码后的)（请 全屏查阅 本表格）'])
     _keys = list(data_json.keys())
     _values = list(data_json.values())
+    _keys_dict_id = get_now_id()
+    _keys_id_list = []
+    for i in range(len(_keys)):
+        temp = _keys_dict_id.get(_keys[i])
+        _keys_id_list.append(temp)
     for i in range(len(_values)):
         _values[i] = urllib.parse.unquote(_values[i])
         _values[i] = textwrap.fill(_values[i], width=70)
     table.set_style(DOUBLE_BORDER)
     for i in range(len(_keys)):
-        table.add_row([i + 1, 'https://tuo.icodeq.com/' + _keys[i], _values[i]])
+        table.add_row([_keys_id_list[i], 'https://tuo.icodeq.com/' + _keys[i], _values[i]])
     print(table)
     return _keys
+
+
+def get_now_id():
+    if os.path.exists('data.json'):
+        data_json = read_json('data.json')
+    else:
+        data_json = {}
+    keys = list(data_json.keys())
+    keys_list = dict(enumerate(keys, start=1))
+    _keys_list = {}
+    for key, val in keys_list.items():
+        _keys_list[val] = key
+    return _keys_list
 
 
 def replace_mode():
@@ -139,7 +157,14 @@ def replace_mode():
     else:
         data_json = {}
     _keys = print_table(data_json)
-    data_line = input('请输入您要操作的编号: ')
+    data_line = input('请输入您要操作的编号或 输入0 返回菜单:')
+    if data_line == '0':
+        return 0
+    try:
+        temp = _keys[int(data_line)]
+    except ValueError and IndexError:
+        print('数据未获取到，请重新输入！！')
+        return 0
     # 输入删除或替换
     print('您当前选择的短链为: {0}'.format(_keys[int(data_line) - 1]))
     del_or_rep = input('您要执行的操作是？\n\n1. 删除 2. 更新\n\n请输入您要执行的操作:')
