@@ -65,9 +65,9 @@
 
 3. 将网页部署到 `github` 或者 `gitee` 或者 `vercel` 上面
 
-4. 打开 在 [图欧君短链生成器-v3.x](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v3.x`, 或者直接运行 `/python-CLI` 目录下的源码
+4. 打开 在 [图欧君短链生成器-v4.x](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v4.x`, 或者直接运行 `/python-CLI` 目录下的源码
 
-5. 根据提示开始添加短链
+5. 根据提示开始添加短链 （OSS 详情设置请参阅官网配置，若不是使用的 OSS ，请使用 3.5 版本）
 
 ```cmd
 本工具有四种模式
@@ -79,7 +79,9 @@
 0. 退出
 ```
 
-6. 添加短链完成后将`data.json` 文件传到 `Github` 或者 `Gitee` 或者 `Vercel` 或者 `OSS` 或者随便一个云存储
+6. ~添加短链完成后将`data.json` 文件传到 `Github` 或者 `Gitee` 或者 `Vercel` 或者 `OSS` 或者随便一个云存储~
+
+6. 本工具自动同步 oss ，详情参阅  https://github.com/zkeq/Tuostudy-Short-url/releases/tag/v4.0.0 🚀🚀🚀🚀
 
 7. 请确保你第六步上传数据得到的 `url` 可以直接访问并且第一步填写的`url`中的值完全一样
 
@@ -87,7 +89,7 @@
 
 #### 后续维护
 
-- 请在 `图欧君短链生成器-v3.2`中进行后续操作，操作完成后将 `data.json ` 再次上传即可。
+- 请在 `图欧君短链生成器-v4.x`中进行后续操作。
 
 #### 另一种思路（不大推荐）
 
