@@ -16,6 +16,23 @@
 
 - 查到字典了就 `window.location.replace()`
 
+##### Json 格式 (专门写了一个工具来生成和维护这个数据，见 [Releases](https://github.com/zkeq/Tuostudy-Short-url/releases) )
+
+```JSON
+{
+	"dream": "https://dream-plan.cn/",
+	"abcd": "https://tuostudy.vercel.app/api?path=/📺 020# 单词视频/📁 扇贝单词（新）/托福中级.mp4&raw=true",
+	"abcde": "https://tuostudy.vercel.app/📺 020# 单词视频/📁 官方原版（同步）/📁 人教版高中英语单词必修1~选修11",
+	"test": "https://tuostudy.vercel.app/🔊 030# 课本音频/📁 英语",
+	"test2": "https://tuostudy.vercel.app/🔊 030# 课本音频/📁 英语/📁 03# 高考听力/2019年",
+	"vip": "https://tuostudy.vercel.app/📺 020# 单词视频/📁 不背单词（超全）/📁 07# 固定搭配词组短语系列（付费）",
+	"vip1": "https://tuostudy.vercel.app/api?path=/📺 020# 单词视频/📁 不背单词（超全）/📁 07# 固定搭配词组短语系列（付费）/中考词组.mp4&raw=true",
+	"shanbei": "https://tuostudy.vercel.app/📜 050# 单词文本/📁 02# 扇贝单词（新）/",
+	"xiaoxuetxt": "https://tuostudy.vercel.app/📜 050# 单词文本/📁 01# 墨墨单词（超全）/📁 03# 带中文释义版/1.全国各大教材版本中小学同步/人教版/",
+	"xiaoxuemp3": "https://tuostudy.vercel.app/🔊 030# 课本音频/📁 英语/📁 01# 中小学同步单词课文录音/小学/人教版/"
+}
+```
+
 ##### 代码
 
 - [zkeq/Tuostudy-Short-url: 短链服务 (github.com)](https://github.com/zkeq/Tuostudy-Short-url)
