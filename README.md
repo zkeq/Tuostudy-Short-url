@@ -33,13 +33,13 @@
 }
 ```
 
-##### 代码
+##### 代码 (若不使用 OSS ，请使用 3.5 版本)
 
 - [zkeq/Tuostudy-Short-url: 短链服务 (github.com)](https://github.com/zkeq/Tuostudy-Short-url)
 
 - [zkeq/Tuostudy-Short-url: 短链服务 (gitee.com)](https://gitee.com/zkeq/Tuostudy-Short-url)
 
-#### 用法
+#### 用法 
 
 1. 修改 `404.html` 和 `index.html` 中的这些部分 ( `url` 和 `long` 的值)
 
