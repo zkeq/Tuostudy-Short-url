@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<link rel="stylesheet" href="../index.css">
+<link rel="shortcut icon" href="/favicon.ico">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">      <!--  清除缓存 -->
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">   <!--  清除缓存  -->
+<META HTTP-EQUIV="expires" CONTENT="0">     <!--  清除缓存 -->
+<title>🚀短链服务🚀</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><h1 id='🚀短链服务🚀'><span>🚀短链服务🚀</span></h1><h4 id='欢迎使用学习资源库'><span>欢迎使用学习资源库</span></h4><ul><li><span>当您看到此页面时，短链服务应该已经正常工作了。</span></li><li><span>做下载文件短链时，此服务做中转页功能。</span></li><li><span>若您看到本页面，说明您访问的是文件直链，并且此文件已经开始下载。</span></li></ul><h6 id='若没有正常下载'><span>若没有正常下载</span></h6><ul><li><span>请刷新。</span></li><li><span>或者</span><a href='https://tuostudy.vercel.app/'><span>返回图欧学习资源库主页</span></a><span>找到你想下载的资源。</span></li></ul></div></div>
+<!-- js 跳转 -->
+<!-- <script>
+//ajax 对象
+function ajaxObject() {
+    var xmlHttp;
+    try {
+        // Firefox, Opera 8.0+, Safari
+        xmlHttp = new XMLHttpRequest();
+        } 
+    catch (e) {
+        // Internet Explorer
+        try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+            try {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {
+                window.location.replace("https://tuostudy.vercel.app")
+            }
+        }
+    }
+    return xmlHttp;
+}
+ 
+// ajax post请求：
+function ajaxPost ( url  ) {
+    var ajax = ajaxObject();
+    ajax.open( "get" , url , true );
+    ajax.setRequestHeader( "Content-Type" , "application/json;charset=utf-8" );
+    ajax.onreadystatechange = function () {
+        if( ajax.readyState == 4 ) {
+            if( ajax.status == 200 ) {
+                var response = JSON.parse(ajax.responseText) 
+                console.log(response)
+                url = window.location.href.split('?')[1]
+                long = response[url]
+                if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
+                     long = 'https://tuostudy.vercel.app'}
+                console.log(long)
+                window.location.replace(long)
+            }
+ 
+        }
+ 
+    }
+    ajax.send( null );
+ 
+}
+var titleUrl='https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
+ajaxPost(titleUrl)  // 这里的代码 不 是 我 写 的  https://blog.csdn.net/qq_29428215/article/details/80968322 (这是思路一）
+</script> -->  
+    
+<script>
+    /* 封装ajax函数
+ * @param {string}opt.type http连接的方式，包括POST和GET两种方式
+ * @param {string}opt.url 发送请求的url
+ * @param {boolean}opt.async 是否为异步请求，true为异步的，false为同步的
+ * @param {object}opt.data 发送的参数，格式为对象类型
+ * @param {function}opt.success ajax发送并接收成功调用的回调函数
+ */
+ function ajax(opt) {  // 这里的代码 不 是 我 写 的  https://blog.csdn.net/qq_29428215/article/details/80968322 （这是思路二）
+        opt = opt || {};
+        opt.method = opt.method.toUpperCase() || 'POST';
+        opt.url = opt.url || '';
+        opt.async = opt.async || true;
+        opt.data = opt.data || null;
+        opt.success = opt.success || function () {};
+        var xmlHttp = null;
+        if (XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
+        }
+        else {
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+        }var params = [];
+        for (var key in opt.data){
+            params.push(key + '=' + opt.data[key]);
+        }
+        var postData = params.join('&');
+        if (opt.method.toUpperCase() === 'POST') {
+            xmlHttp.open(opt.method, opt.url, opt.async);
+            xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+            xmlHttp.send(postData);
+        }
+        else if (opt.method.toUpperCase() === 'GET') {
+            xmlHttp.open(opt.method, opt.url + '?' + postData, opt.async);
+            xmlHttp.send(null);
+        } 
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                opt.success(JSON.parse( xmlHttp.responseText));  //如果不是json数据可以去掉json转换
+            }
+        };
+    }
+
+    ajax({
+            method: 'GET',                                                   // 随机数处理缓存
+            url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/test_10w.json?' + parseInt(Math.random()*10000000000000000),  // 使用前请将这行数据替换为你的源
+            cache:false,   // 清除缓存
+            beforeSend: function(xmlHttp){ 
+                xmlHttp.setRequestHeader("If-Modified-Since","0");   // 清除缓存
+                xmlHttp.setRequestHeader("Cache-Control","no-cache");   // 清除缓存
+            },
+            success: function (OriginalFromActivity) {
+                //在这里对获取的数据经常操作
+                console.log(OriginalFromActivity)  // 打印返回的数据
+                url = window.location.href.split('/').pop() // 我只会 Python， 我知道 Python 获取末尾是 list[-1]，但是我试了，不起作用，只能先用这个代替。
+                // url = url.replace('?native.theme=1', '')
+                url = url.split('?')[0]  // b 站从简介访问过来的链接后面总是不干净 ?native.theme=1
+                long = OriginalFromActivity[url] // 查字典，如果没查到那么 就是 undefined
+                if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
+                     long = 'https://tuostudy.vercel.app'}   //使用前请将这行数据替换为你的主页
+                console.log(long)  // 再打印一下看接下来要往哪里跳。
+                window.location.replace(long) // Debug 或者加新功能时，请先把这行代码注释掉，要不然你会很头秃 :)
+                }
+ })
+</script>
+</body>
+</html>
