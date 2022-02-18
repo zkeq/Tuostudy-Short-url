@@ -28,8 +28,7 @@ def oss_config_init():
     # 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录RAM控制台创建RAM账号。
     _config_dict = {'AK': AK, 'SK': SK, 'BUCKET_NAME': BUCKET_NAME, 'Endpoint': Endpoint}
     with open('oss_config.json', 'w', encoding='utf-8') as f:
-        config_file = json.dumps(_config_dict)
-        f.write(config_file)
+        json.dump(_config_dict, f, indent=2, ensure_ascii=False)
     return _config_dict
 
 
@@ -66,7 +65,7 @@ def read_json(file_name):
 # 写入json文件
 def write_json(file_name, _data):
     with open(file_name, 'w+', encoding='utf-8') as f:
-        json.dump(_data, f, ensure_ascii=False)
+        json.dump(_data, f, indent=2, ensure_ascii=False)
     bucket.put_object_from_file(file_name, file_name)
 
 
