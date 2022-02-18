@@ -22,7 +22,7 @@ def read_json(file_name):
 # 写入json文件
 def write_json(file_name, _data):
     with open(file_name, 'w+', encoding='utf-8') as f:
-        json.dump(_data, f, ensure_ascii=False)
+        json.dump(_data, f, indent=2, ensure_ascii=False)
 
 
 # 写入 TXT 文件
