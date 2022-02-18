@@ -19,7 +19,7 @@ def url_2_html(url):
 
 def get_308(name):
     url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
-    r = requests.get(url)
+    r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
     _data = json.loads(r.text)
     try:
         url = _data[name]
