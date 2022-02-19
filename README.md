@@ -105,7 +105,7 @@
 
 2. 获取到你的 notion `sk`
 
-3. 填入 `/api/notion/index.py` 中
+3. 将 `SK` 和 `database`的 `id`  填入 `/api/notion/index.py` 中
 
 4. `databese` 数据表格式如下图
 
