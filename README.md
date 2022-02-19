@@ -111,6 +111,12 @@
 
 ![2](https://p19.qhimg.com/t0151751b6a75ac7c22.png)
 
+5. 直接访问 `/api/notion/?dream` 即可跳转
+
+6. 或使用 `api/notion-back-json` 做数据源
+
+7. 数据源返回示例 https://tuo.icodeq.com/api/notion-back-json
+
 
 ### 接口示例
 
