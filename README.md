@@ -111,6 +111,17 @@
 
 ![2](https://p19.qhimg.com/t0151751b6a75ac7c22.png)
 
+
+### 接口示例
+
+| 序号 | 说明                   | 示例                                       |
+| :--: | ---------------------- | ------------------------------------------ |
+|  1   | 404根目录主链接 | http://tuo.icodeq.com/dream |
+|  2   | 根目录索引 | http://tuo.icodeq.com/?dream  |
+|  3   | vercel-oss-api | http://tuo.icodeq.com/api/?dream  |
+|  3   | vercel-notion-api | http://tuo.icodeq.com/api/notion/?dream  |
+
+
 #### 源码以及相关链接
 
 | 序号 | 说明                   | 链接                                       |
