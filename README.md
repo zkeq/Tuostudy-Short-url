@@ -103,7 +103,9 @@
 
 ### 使用 `notion` 的 `database` 做数据源
 
-1. 创建一张 `database` 表；创建一个集成；给集成加 `读权限`
+[Notion 模板：你也可以试着修改这个数据库来增加记录](https://zkeq.notion.site/0ff3d88f8ba143ea869bb2da7c9236c7?v=b5e44e122f524d56a3e331526dd2d935)
+
+1. 创建一张 `database` 表（注意格式. 字段：`short:str` `url:url` )；创建一个集成；给集成加 `读权限`
 
 2. 获取到你的 notion `sk`
 
