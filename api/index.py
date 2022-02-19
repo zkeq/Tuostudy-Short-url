@@ -17,27 +17,10 @@ def url_2_html(url):
     return html_file
 
 
-def get_notion_data():
-    url = "https://api.notion.com/v1/databases/0ff3d88f8ba143ea869bb2da7c9236c7/query"
-    headers = {
-        "Accept": "application/json",
-        "Notion-Version": "2021-08-16",
-        "Content-Type": "application/json",
-        "Authorization": "secret_pMesJhzV1rJFS9dt41iu7F62YIiiuteXCuffatK1Zmp"
-    }
-    response = requests.request("POST", url, headers=headers).text
-    dict_all = json.loads(response)
-    short_dict = {}
-    for i in dict_all['results']:
-        # print(i)
-        short = i['properties']['Short']['title'][0]['plain_text']
-        url = i['properties']['url']['url']
-        short_dict[short] = url
-    return short_dict
-
-
 def get_308(name):
-    _data = get_notion_data()
+    url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
+    r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
+    _data = json.loads(r.text)
     try:
         url = _data[name]
     except KeyError:
