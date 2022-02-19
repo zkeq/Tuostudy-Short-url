@@ -3,6 +3,9 @@ import json
 import requests
 from http.server import BaseHTTPRequestHandler
 
+SK = "secret_pMesJhzV1rJFS9dt41iu7F62YIiiuteXCuffatK1Zmp"
+ID = '0ff3d88f8ba143ea869bb2da7c9236c7'
+
 
 def read_file(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
@@ -18,12 +21,14 @@ def url_2_html(url):
 
 
 def get_notion_data():
-    url = "https://api.notion.com/v1/databases/0ff3d88f8ba143ea869bb2da7c9236c7/query"
+    global SK
+    global ID
+    url = "https://api.notion.com/v1/databases/{}/query".format(ID)
     headers = {
         "Accept": "application/json",
         "Notion-Version": "2021-08-16",
         "Content-Type": "application/json",
-        "Authorization": "secret_pMesJhzV1rJFS9dt41iu7F62YIiiuteXCuffatK1Zmp"
+        "Authorization": SK
     }
     response = requests.request("POST", url, headers=headers).text
     dict_all = json.loads(response)
