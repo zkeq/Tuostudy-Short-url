@@ -115,9 +115,9 @@
 
 ![2](https://p19.qhimg.com/t0151751b6a75ac7c22.png)
 
-5. 直接访问 `/api/notion/?dream` 即可跳转
+5. 直接访问 `/api/notion/?dream` 即可跳转 (后端渲染完成后返回 /api/notion/)
 
-6. 或使用 `/api/notion-back-json` 做数据源
+6. 或使用 `/api/notion-back-json` 做数据源 (后端只做数据库 /api/notion-back-json）
 
 7. 数据源返回示例 https://tuo.icodeq.com/api/notion-back-json
 
