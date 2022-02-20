@@ -140,7 +140,7 @@
 
 5. 腾讯云不备案生成的链接就是个笑话
 
-6. 你管这玩意叫短链？😂 https://service-55pgd0rm-1303831731.gz.apigw.tencentcs.com/release/APIGWHtmlDemo-1645366165?dream 
+6. 你管这玩意叫短链？😂 https://service-55pgd0rm-1303831731.gz.apigw.tencentcs.com/release/APIGWHtmlDemo-1645366165/dream 
 
 ### 接口示例
 

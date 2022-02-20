@@ -34,7 +34,7 @@ def get_308(name):
 
 def main_handler(event, context):
     try:
-        short = list(event.get('queryString').keys())[0]
+        short = event.get('path').split('/')[-1]
     except IndexError:
         short = ''
     print(short)
