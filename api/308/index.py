@@ -12,8 +12,7 @@ def get_308(name):
         url = _data[name]
     except KeyError:
         url = 'https://tuostudy.vercel.app/'
-    data = 'Redirecting to {} (308)'.format(url)
-    return data
+    return url
 
 
 class handler(BaseHTTPRequestHandler):
@@ -24,12 +23,12 @@ class handler(BaseHTTPRequestHandler):
         except IndexError:
             short = ''
         print(short)
-        data = get_308(short)
+        url = get_308(short)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('location', data)
-        self.send_header('Refresh', '0;url={}'.format(data))
+        self.send_header('location', url)
+        self.send_header('Refresh', '0;url={}'.format(url))
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
-        self.wfile.write(data.encode('utf-8'))
+        self.wfile.write('Redirecting to {} (308)'.format(url).encode('utf-8'))
         return
