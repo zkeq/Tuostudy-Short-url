@@ -3,9 +3,12 @@ import json
 import requests
 from http.server import BaseHTTPRequestHandler
 
+# 这个文件针对 vercel 开发，但是 vercel 要放在 /api 这个目录下面才会当做 函数 执行，总感觉不够优雅
+# 有域名的话推荐同目录下的那个腾讯云函数的方式
+
 
 def get_308(name):
-    url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'
+    url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'  # 当然，这个数据源也可以换成 Notion 那个，其实就是把那个函数复制过来，我就不写了
     r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
     _data = json.loads(r.text)
     try:
