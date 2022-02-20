@@ -24,7 +24,7 @@ class handler(BaseHTTPRequestHandler):
             short = ''
         print(short)
         url = get_308(short)
-        self.send_response(200)
+        self.send_response(308)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('location', url)
         self.send_header('Refresh', '0;url={}'.format(url))
