@@ -13,6 +13,30 @@
 
 5. 修改 `Notion` `Database` 中的内容，此 `API` 获取到的内容实时更新。
 
+#### 具体使用方法
+
+##### vercel 函数
+
+1. vercel 确保根目录包含 `requirements.txt` 即本仓库根目录那个。
+
+2. 上传文件至 `/api` 路径，将文件名命名为 `index.py`
+
+3. 部署即可
+
+##### 腾讯云函数
+
+1. 部署前请先安装库..
+
+2. 先新建文件夹，把本文件拖进去，然后重命名为 `index.py`
+
+3. 然后在命令行执行 
+
+4. `pip install requests -t .`
+
+5. 然后再将本地文件夹上传至云函数
+
+6. https://cloud.tencent.com/document/product/583/39780#python-.E8.BF.90.E8.A1.8C.E6.97.B6
+
 ------------
 
 | 序号 | 文件名                 | 服务提供商    | 处理时长       |

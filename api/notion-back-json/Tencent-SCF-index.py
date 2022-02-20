@@ -1,4 +1,10 @@
 # -*- coding: UTF-8 -*-
+# 部署前请先安装库..
+# 先新建文件夹，把本文件拖进去，然后重命名为 index.py 
+# 然后在命令行执行 
+# pip install requests -t .
+# 然后再将本地文件夹上传至云函数
+# https://cloud.tencent.com/document/product/583/39780#python-.E8.BF.90.E8.A1.8C.E6.97.B6
 import json
 import requests
 from http.server import BaseHTTPRequestHandler
