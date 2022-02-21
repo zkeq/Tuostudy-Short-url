@@ -39,7 +39,6 @@ def main_handler(event, context):
         short = ''
     print(short)
     url = get_308(short)
-    url = url.encode('utf-8')
     return{
         "isBase64Encoded": False,
         "statusCode": 308,
