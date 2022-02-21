@@ -17,7 +17,7 @@ def get_308(name):
         url = _data[name]
     except KeyError:
         url = 'https://tuostudy.vercel.app/'
-    url = urllib.parse.quote(url, safe='/:?=&')
+    url = urllib.parse.quote(url, safe='/:?=&%20')
     return url
 
 
