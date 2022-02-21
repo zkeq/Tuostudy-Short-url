@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 import json
 import requests
+# 引入 url 编码
+import urllib.parse
 from http.server import BaseHTTPRequestHandler
 
 # 这个文件针对 vercel 开发，但是 vercel 要放在 /api 这个目录下面才会当做 函数 执行，总感觉不够优雅
@@ -11,12 +13,16 @@ def get_308(name):
     url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'  # 当然，这个数据源也可以换成 Notion 那个，其实就是把那个函数复制过来，我就不写了
     r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
     _data = json.loads(r.text)
+    print(_data)
     try:
         url = _data[name]
     except KeyError:
         url = 'https://tuostudy.vercel.app/'
+    url = urllib.parse.quote(url, safe='/:?=&%20')
     return url
 
+
+print(get_308('test'))
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
