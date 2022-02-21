@@ -13,6 +13,7 @@ def get_308(name):
     url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'  # 当然，这个数据源也可以换成 Notion 那个，其实就是把那个函数复制过来，我就不写了
     r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
     _data = json.loads(r.text)
+    print(_data)
     try:
         url = _data[name]
     except KeyError:
