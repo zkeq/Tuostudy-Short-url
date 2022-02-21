@@ -37,3 +37,5 @@ urllib3-1.26.8.dist-info
 index.py
 ```
 7. 点击测试，应该是不会出现乱码的！
+
+示例： https://service-ic8c75s2-1303831731.gz.apigw.tencentcs.com/release/helloworld-1645444886/dream
