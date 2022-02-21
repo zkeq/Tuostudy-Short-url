@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 import json
 import requests
+# 引入 url 编码
+import urllib.parse
 from http.server import BaseHTTPRequestHandler
 
 # 这个文件针对 vercel 开发，但是 vercel 要放在 /api 这个目录下面才会当做 函数 执行，总感觉不够优雅
@@ -15,8 +17,11 @@ def get_308(name):
         url = _data[name]
     except KeyError:
         url = 'https://tuostudy.vercel.app/'
+    url = urllib.parse.quote(url, safe='/:?=&')
     return url
 
+
+print(get_308('test'))
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
