@@ -33,6 +33,7 @@ class handler(BaseHTTPRequestHandler):
         data = get_notion_data()
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate')
         self.send_header('Content-type', 'application/json; charset=utf-8')
         self.end_headers()
         self.wfile.write(json.dumps(data).encode('utf-8'))
