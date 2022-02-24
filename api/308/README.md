@@ -10,7 +10,9 @@
 
 5. 腾讯云不备案生成的链接就是个笑话
 
-6. 你管这玩意叫短链？😂 https://service-55pgd0rm-1303831731.gz.apigw.tencentcs.com/release/APIGWHtmlDemo-1645366165/dream 
+6. 你管这玩意叫短链？😂 https://service-cetfbmjm-1303831731.gz.apigw.tencentcs.com/release/helloworld-1645706447/dream
+
+> `vercel` 示例: https://tuo.icodeq.com/api/308?dream
 
 ### 修复 腾讯云函数 无法读取 中文的问题（即提前编译好）
 
@@ -38,4 +40,4 @@ index.py
 ```
 7. 点击测试，应该是不会出现乱码的！
 
-示例： https://service-ic8c75s2-1303831731.gz.apigw.tencentcs.com/release/helloworld-1645444886/dream
+示例： https://service-cetfbmjm-1303831731.gz.apigw.tencentcs.com/release/helloworld-1645706447/dream
