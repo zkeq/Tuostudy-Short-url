@@ -142,6 +142,8 @@
 
 6. 你管这玩意叫短链？😂 https://service-cetfbmjm-1303831731.gz.apigw.tencentcs.com/release/helloworld-1645706447/dream
 
+> `vercel` 示例: https://tuo.icodeq.com/api/308?dream
+
 ### 接口示例
 
 | 序号 | 说明                   | 示例                                       |
