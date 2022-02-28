@@ -162,3 +162,12 @@
 |  2   | `Gitee` 仓库 (会更新)  | https://gitee.com/zkeq/Tuostudy-Short-url  |
 |  3   | 本文PDF格式     | https://lanzoul.com/iDzgM003x1yh  |
 
+### 赞助
+
+感谢 `JetBrains` 为本项目提供的许可证。
+
+<a href="https://jb.gg/OpenSourceSupport">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="8%"/>
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.png" alt="PyCharm logo." width="25%">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm_icon.png" alt="PyCharm logo." width="8%"></div>
+</a>
