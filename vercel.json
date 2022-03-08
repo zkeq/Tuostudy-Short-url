@@ -1,8 +1,8 @@
 {
-    "redirects": [
+    "rewrites": [
       {
-        "source": "/:path*",
-        "destination": "/api/308/?:path*"
+        "source": "/",
+        "destination": "/api/308/"
       }
     ]
   }
