@@ -2,7 +2,7 @@
     "rewrites": [
       {
         "source": "/",
-        "destination": "/api/308/?"
+        "destination": "/api/308/"
       }
     ]
   }
