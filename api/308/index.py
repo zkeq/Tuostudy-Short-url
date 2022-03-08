@@ -14,7 +14,6 @@ def get_308(name):
     r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
     _data = json.loads(r.text)
     try:
-        print(name)
         url = _data[name]
     except KeyError:
         url = 'https://tuostudy.vercel.app/'
@@ -26,7 +25,6 @@ print(get_308('test'))
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        print(self)
         print(self.path)
         path = self.path
         try:
