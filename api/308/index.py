@@ -26,9 +26,11 @@ print(get_308('test'))
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
+        print(self)
+        print(self.path)
         path = self.path
         try:
-            short = path.split('?')[-1]
+            short = path.split('=')[-1]
         except IndexError:
             short = ''
         print(short)
