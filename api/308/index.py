@@ -24,6 +24,7 @@ def get_308(name):
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
+        print('debug: ', self.__dict__)
         print('获取到的路径为:', self.path)
         path = self.path
         try:
