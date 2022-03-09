@@ -17,21 +17,20 @@ def get_308(name):
         url = _data[name]
     except KeyError:
         url = 'https://tuostudy.vercel.app/'
+    print('获取到的原始链接为: ', urllib.parse.unquote(url))
     url = urllib.parse.quote(url, safe='/:?=&%20')
     return url
 
 
-print(get_308('test'))
-
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        print(self.path)
+        print('获取到的路径为:', self.path)
         path = self.path
         try:
             short = path.split('=')[-1]
         except IndexError:
             short = ''
-        print(short)
+        print('提取出来的短链为:', short)
         url = get_308(short)
         self.send_response(308)
         self.send_header('Access-Control-Allow-Origin', '*')
