@@ -6,3 +6,8 @@
 .idea/modules.xml
 .idea/modules.xml
 .idea/vcs.xml
+*.xml
+*.iml
+*.pyc
+python-CLI/WebIO/data.json
+python-CLI/WebIO/oss_config.json
