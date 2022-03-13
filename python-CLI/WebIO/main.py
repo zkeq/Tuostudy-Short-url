@@ -138,7 +138,8 @@ def main():
         while True:
             login_su()
     else:
-        put_markdown("""# 登录失败""")
+        pywebio.output.toast("登录失败！请检查您的账号和密码！", duration=3, color="error")
+        main()
 
 
 def get_time_hash():
