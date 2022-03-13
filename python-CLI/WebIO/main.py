@@ -52,7 +52,7 @@ def edit_row(choice, row):
     if choice == '🖊️':
         popup("编辑短链", [
             put_markdown("""## 您当前选择的短链是: {0}""".format(row)),
-            put_table(list_data, ["名称", "内容"]),
+            put_table(list_data, ["No", "内容"]),
             put_markdown("""#### 将本窗口关闭后请在下方的输入框中更新！""".format(row, url)),
             put_buttons(['我知道了，关闭弹窗在并下方更新。'], onclick=lambda _: close_popup()),
         ])
@@ -67,7 +67,7 @@ def edit_row(choice, row):
             popup("更新成功",
                   [
                       put_markdown("""## 更新后的短链信息为:"""),
-                      put_table(list_data, ["名称", "内容"]),
+                      put_table(list_data, ["No", "内容"]),
                       put_buttons(['关闭弹窗'], onclick=lambda _: close_popup())
                   ])
         else:
@@ -80,7 +80,7 @@ def edit_row(choice, row):
         popup("编辑短链", [
             put_markdown("""## 警告: 当前的操作属于敏感操作！""", color="red"),
             put_markdown("""### 当前选择的短链是: {0}""".format(row)),
-            put_table(list_data, ["名称", "内容"]),
+            put_table(list_data, ["No", "内容"]),
             put_markdown("""您确认要删除吗？"""),
             put_buttons(['关闭弹窗'], onclick=lambda _: [close_popup()]),
             put_buttons(['确认删除'], onclick=lambda _: [del_el(row)])
