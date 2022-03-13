@@ -42,6 +42,7 @@ def del_el(el):
 
 
 def edit_row(choice, row):
+    pywebio.output.toast("请稍等，正在处理中", duration=3, color="info")
     dict_data = get_now_dict()
     list_data = get_now_list(dict_data)
     row = list_data[row - 1][1]
@@ -56,11 +57,13 @@ def edit_row(choice, row):
             put_buttons(['我知道了，关闭弹窗在并下方更新。'], onclick=lambda _: close_popup()),
         ])
         url_info = input_group('编辑短链:', [input("请输入对应的长链: ", name="url", type=URL)])
+        pywebio.output.toast("请稍等，正在为您更新短链", duration=3, color="info")
         dict_data = {"name": row, "url": url_info["url"]}
         list_data = [(row, url_info["url"])]
         data = requests.post('http://127.0.0.1:3211/update/', json=dict_data).json()
         print(data)
         if data['result']:
+            pywebio.output.toast("短链更新成功！", duration=3, color="success")
             popup("更新成功",
                   [
                       put_markdown("""## 更新后的短链信息为:"""),
@@ -120,16 +123,18 @@ def login_su():
             input("请输入对应的长链: ", name="url", type=URL),
         ])
         short_info["name"] = get_time_hash()[:short_info["name"]]
-    put_markdown("""# 生成结果""")
+    pywebio.output.put_success("添加短链成功，正在刷新页面")
     print(short_info)
     data = requests.post('http://127.0.0.1:3211/new/', json=short_info)
     print(data.text)
+    pywebio.output.toast("生成短链成功，正在刷新页面", duration=3, color="success")
 
 
 @config(theme="yeti")
 def main():
     lg = login()
     if lg:
+        pywebio.output.toast("登录成功，正在为您跳转", duration=2, color="success")
         while True:
             login_su()
     else:
@@ -143,4 +148,5 @@ def get_time_hash():
 
 
 if __name__ == '__main__':
-    start_server(main, debug=True, port=3985, cdn="https://s-bj-2220-tuo-admin.oss.dogecdn.com/")
+    pywebio.platform.tornado_http.start_server(main, port=3985, host='', debug=False, cdn=True, static_dir=None, allowed_origins=None, check_origin=None, auto_open_webbrowser=False, session_expire_seconds=None, session_cleanup_interval=None, max_payload_size='200M')
+    # start_server(main, debug=True, port=3985, cdn="https://s-bj-2220-tuo-admin.oss.dogecdn.com/")
