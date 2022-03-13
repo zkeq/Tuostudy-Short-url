@@ -120,10 +120,11 @@ def login_su():
             input("请输入对应的长链: ", name="url", type=URL),
         ])
         short_info["name"] = get_time_hash()[:short_info["name"]]
-    put_markdown("""# 生成结果""")
+    put_markdown("""# 正在生成中~""")
     print(short_info)
     data = requests.post('http://127.0.0.1:3211/new/', json=short_info)
     print(data.text)
+    pywebio.output.toast("生成短链成功，正在刷新页面", duration=3, color="success")
 
 
 @config(theme="yeti")
@@ -143,4 +144,5 @@ def get_time_hash():
 
 
 if __name__ == '__main__':
-    start_server(main, debug=True, port=3985, cdn="https://s-bj-2220-tuo-admin.oss.dogecdn.com/")
+    pywebio.platform.tornado_http.start_server(main, port=8080, host='', debug=False, cdn=True, static_dir=None, allowed_origins=None, check_origin=None, auto_open_webbrowser=False, session_expire_seconds=None, session_cleanup_interval=None, max_payload_size='200M')
+    # start_server(main, debug=True, port=3985, cdn="https://s-bj-2220-tuo-admin.oss.dogecdn.com/")
