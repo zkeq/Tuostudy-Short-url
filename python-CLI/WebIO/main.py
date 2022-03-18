@@ -94,7 +94,8 @@ def get_now_list(dict_data):
     num = 1
     for i in dict_data:
         dict_data[i] = urllib.parse.unquote(dict_data[i])
-        list_data.append([num, i, dict_data[i],
+        u = "https://tuo.icodeq.com/{0}".format(i)
+        list_data.append([num, put_link(u, url=u, new_window=True), dict_data[i],
                           put_buttons(['🖊️', '❌'], group=True, small=True, onclick=partial(edit_row, row=num))])
         num += 1
     return list_data
