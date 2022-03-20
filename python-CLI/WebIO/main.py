@@ -8,6 +8,7 @@ import requests
 from pywebio import start_server, config
 from pywebio.input import *
 from pywebio.output import *
+import re
 
 
 def login():
@@ -45,7 +46,7 @@ def edit_row(choice, row):
     pywebio.output.toast("请稍等，正在处理中", duration=3, color="info")
     dict_data = get_now_dict()
     list_data = get_now_list(dict_data)
-    row = list_data[row - 1][1]
+    row = re.findall('<a href="https://tuo.icodeq.com/(.*?)" target="_blank">', list_data[row - 1][1].embed_data()["content"])[0]
     url = dict_data[row]
     list_data = [(row, url)]
     get_table()
