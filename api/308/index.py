@@ -16,7 +16,7 @@ def get_308(name):
     try:
         url = _data[name]
     except KeyError:
-        url = 'https://tuostudy.vercel.app/'
+        url = 'https://tuo.icodeq.com/'
     print('获取到的原始链接为: ', urllib.parse.unquote(url))
     url = urllib.parse.quote(url, safe='/:?=&%20')
     return url
