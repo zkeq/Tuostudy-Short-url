@@ -88,23 +88,34 @@ const shortUrlItems = ref([]);
 // 标记数据是否已加载
 const dataLoaded = ref(false);
 
-// 解码URL
-const decodeUrl = (url) => {
-  try {
-    return decodeURIComponent(url);
-  } catch (e) {
-    console.error("解码URL失败:", e);
-    return url; // 如果解码失败，返回原始URL
-  }
-};
-
 // 编码URL
 const encodeUrl = (url) => {
   try {
+    // 检查URL是否已经被编码过
+    const isAlreadyEncoded = url !== decodeURIComponent(url);
+    if (isAlreadyEncoded) {
+      console.log("URL已经被编码过，不再重复编码");
+      return url; // 如果已编码，直接返回
+    }
     return encodeURIComponent(url);
   } catch (e) {
     console.error("编码URL失败:", e);
     return url; // 如果编码失败，返回原始URL
+  }
+};
+
+// 解码URL
+const decodeUrl = (url) => {
+  try {
+    // 尝试解码，如果解码后与原始值不同，说明是被编码过的
+    const decoded = decodeURIComponent(url);
+    if (decoded !== url) {
+      return decoded;
+    }
+    return url; // 如果解码前后相同，说明原本就是未编码的
+  } catch (e) {
+    console.error("解码URL失败:", e);
+    return url; // 如果解码失败，返回原始URL
   }
 };
 
@@ -145,9 +156,19 @@ const removeShortLink = (index) => {
 
 // 验证短链接数据
 const validateShortUrlItems = () => {
-  const invalidItems = shortUrlItems.value.filter(
-    item => !item.decodedValue?.trim() // 只验证decodedValue不为空，允许key为空
-  );
+  const invalidItems = shortUrlItems.value.filter(item => {
+    // 检查是否为空
+    if (!item.decodedValue?.trim()) return true;
+    
+    // 尝试验证URL格式 (可选)
+    try {
+      new URL(item.decodedValue);
+      return false; // URL格式正确
+    } catch (e) {
+      console.warn('无效URL格式:', item.decodedValue);
+      return true; // URL格式不正确
+    }
+  });
   
   if (invalidItems.length > 0) {
     console.log('无效的短链接项:', invalidItems);
