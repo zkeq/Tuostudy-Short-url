@@ -88,53 +88,30 @@ const shortUrlItems = ref([]);
 // 标记数据是否已加载
 const dataLoaded = ref(false);
 
-// 编码URL
-const encodeUrl = (url) => {
-  try {
-    // 检查URL是否已经被编码过
-    const isAlreadyEncoded = url !== decodeURIComponent(url);
-    if (isAlreadyEncoded) {
-      console.log("URL已经被编码过，不再重复编码");
-      return url; // 如果已编码，直接返回
-    }
-    return encodeURIComponent(url);
-  } catch (e) {
-    console.error("编码URL失败:", e);
-    return url; // 如果编码失败，返回原始URL
-  }
-};
-
-// 解码URL
+// 移除编码/解码逻辑，直接返回原始值
 const decodeUrl = (url) => {
-  try {
-    // 尝试解码，如果解码后与原始值不同，说明是被编码过的
-    const decoded = decodeURIComponent(url);
-    if (decoded !== url) {
-      return decoded;
-    }
-    return url; // 如果解码前后相同，说明原本就是未编码的
-  } catch (e) {
-    console.error("解码URL失败:", e);
-    return url; // 如果解码失败，返回原始URL
-  }
+  return url || '';
 };
 
-// 从对象转换为拖拽排序所需的数组格式，并解码URL
+const encodeUrl = (url) => {
+  return url || '';
+};
+
+// 从对象转换为数组格式，不进行任何编码/解码
 const convertToItems = (dataObj) => {
   return Object.entries(dataObj).map(([key, value]) => ({
     key,
-    value, // 保留原始编码值
-    decodedValue: decodeUrl(value) // 添加解码后的值用于显示
+    value,
+    decodedValue: value // 直接使用原始值
   }));
 };
 
-// 从拖拽排序数组转换回对象格式，并编码URL
+// 从数组转换回对象格式，不进行任何编码/解码
 const convertToObject = (items) => {
   const result = {};
   items.forEach(item => {
     if (item.key.trim() !== '') {
-      // 提交时使用编码后的URL，如果decodedValue为空，则使用空字符串
-      result[item.key] = item.decodedValue ? encodeUrl(item.decodedValue) : '';
+      result[item.key] = item.decodedValue || '';
     }
   });
   return result;
@@ -156,19 +133,9 @@ const removeShortLink = (index) => {
 
 // 验证短链接数据
 const validateShortUrlItems = () => {
-  const invalidItems = shortUrlItems.value.filter(item => {
-    // 检查是否为空
-    if (!item.decodedValue?.trim()) return true;
-    
-    // 尝试验证URL格式 (可选)
-    try {
-      new URL(item.decodedValue);
-      return false; // URL格式正确
-    } catch (e) {
-      console.warn('无效URL格式:', item.decodedValue);
-      return true; // URL格式不正确
-    }
-  });
+  const invalidItems = shortUrlItems.value.filter(
+    item => !item.decodedValue?.trim() // 只验证decodedValue不为空，允许key为空
+  );
   
   if (invalidItems.length > 0) {
     console.log('无效的短链接项:', invalidItems);
@@ -236,19 +203,12 @@ const onSubmit = () => {
   // 验证所有短链接
   console.log('提交前的短链接数据:', JSON.stringify(shortUrlItems.value));
   
-  // 确保所有项都有decodedValue属性
-  shortUrlItems.value.forEach(item => {
-    if (!item.hasOwnProperty('decodedValue')) {
-      item.decodedValue = item.value ? decodeUrl(item.value) : '';
-    }
-  });
-  
   if (!validateShortUrlItems()) {
     message.error("存在未填写目标链接的项，请检查");
     return;
   }
 
-  // 组装提交数据，编码URL
+  // 组装提交数据，不进行编码
   const updatedData = convertToObject(shortUrlItems.value);
   
   const postData = {
@@ -257,6 +217,8 @@ const onSubmit = () => {
     password: shortUrlState.password,
     message: "更新短链接: " + new Date().toLocaleString()
   };
+
+  console.log('准备提交的数据:', JSON.stringify(updatedData)); // 添加日志检查提交的数据
 
   isLoading.value = true;
 
