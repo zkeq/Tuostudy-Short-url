@@ -19,7 +19,7 @@
           </a-table-column>
           <a-table-column title="目标链接" key="value" :width="600">
             <template #default="{ record }">
-              <a-input v-model:value="record.value" placeholder="输入完整链接地址，如：https://example.com/path" />
+              <a-input v-model:value="record.decodedValue" placeholder="输入完整链接地址，如：https://example.com/path" />
             </template>
           </a-table-column>
           <a-table-column title="操作" key="action" :width="100">
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, watch } from "vue";
 import { message, Card as ACard, Form as AForm, Input as AInput, Switch as ASwitch, Divider as ADivider, Button as AButton, Row as ARow, Col as ACol, Textarea as ATextarea, Table as ATable, TableColumn as ATableColumn } from "ant-design-vue";
 import { 
   PlusOutlined, 
@@ -88,20 +88,42 @@ const shortUrlItems = ref([]);
 // 标记数据是否已加载
 const dataLoaded = ref(false);
 
-// 从对象转换为拖拽排序所需的数组格式
+// 解码URL
+const decodeUrl = (url) => {
+  try {
+    return decodeURIComponent(url);
+  } catch (e) {
+    console.error("解码URL失败:", e);
+    return url; // 如果解码失败，返回原始URL
+  }
+};
+
+// 编码URL
+const encodeUrl = (url) => {
+  try {
+    return encodeURIComponent(url);
+  } catch (e) {
+    console.error("编码URL失败:", e);
+    return url; // 如果编码失败，返回原始URL
+  }
+};
+
+// 从对象转换为拖拽排序所需的数组格式，并解码URL
 const convertToItems = (dataObj) => {
   return Object.entries(dataObj).map(([key, value]) => ({
     key,
-    value
+    value, // 保留原始编码值
+    decodedValue: decodeUrl(value) // 添加解码后的值用于显示
   }));
 };
 
-// 从拖拽排序数组转换回对象格式
+// 从拖拽排序数组转换回对象格式，并编码URL
 const convertToObject = (items) => {
   const result = {};
   items.forEach(item => {
     if (item.key.trim() !== '') {
-      result[item.key] = item.value;
+      // 提交时使用编码后的URL
+      result[item.key] = encodeUrl(item.decodedValue);
     }
   });
   return result;
@@ -111,7 +133,8 @@ const convertToObject = (items) => {
 const addShortLink = () => {
   shortUrlItems.value.push({
     key: "",
-    value: ""
+    value: "",
+    decodedValue: ""
   });
 };
 
@@ -178,7 +201,7 @@ const onSubmit = () => {
 
   // 验证所有短链接
   const hasEmptyFields = shortUrlItems.value.some(
-    item => !item.key.trim() || !item.value.trim()
+    item => !item.key.trim() || !item.decodedValue.trim()
   );
   
   if (hasEmptyFields) {
@@ -186,7 +209,7 @@ const onSubmit = () => {
     return;
   }
 
-  // 组装提交数据
+  // 组装提交数据，编码URL
   const updatedData = convertToObject(shortUrlItems.value);
   
   const postData = {
@@ -209,7 +232,7 @@ const onSubmit = () => {
   .then(result => {
     isLoading.value = false;
     if (result.code === 200) {
-      message.success("提交成功，短链接已更新");
+      message.success("提交成功，短链接已更新 2分钟上线");
       shortUrlState.data = result.data;
       shortUrlItems.value = convertToItems(result.data);
     } else {
