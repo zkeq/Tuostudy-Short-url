@@ -53,14 +53,25 @@ class handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path
-        # 返回self的所有属性
-        if data["password"] != "ai-home-short":
+        # 获取查询参数，如果没有密码参数则默认为空
+        query_components = {}
+        if '?' in path:
+            query_string = path.split('?')[1]
+            for kv in query_string.split('&'):
+                if '=' in kv:
+                    k, v = kv.split('=')
+                    query_components[k] = v
+        
+        password = query_components.get('password', '')
+        
+        if password != "ai-home-short":
             self.send_response(400)
             self._send_cors_headers()
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps({"code": 400, "message": "密码错误"}).encode('utf-8'))
             return
+        
         data = {
             "code": 200,
             "path": "data/data.json",
