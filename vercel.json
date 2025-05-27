@@ -4,13 +4,16 @@
         "source": "/setting",
         "destination": "/"
       },
-      {
-        "source": "/",
-        "destination": "/api/308"
-      },
+
       {
         "source": "/:path*",
         "destination": "/api/308?:path*"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "/api/308"
       }
     ]
   }
