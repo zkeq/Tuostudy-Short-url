@@ -11,6 +11,7 @@
           :dataSource="shortUrlItems" 
           :pagination="false"
           rowKey="key"
+          v-if="dataLoaded"
         >
           <a-table-column title="短链接名称" key="key">
             <template #default="{ record }">
@@ -35,7 +36,7 @@
           </a-table-column>
         </a-table>
 
-        <a-form-item style="margin-top: 20px;">
+        <a-form-item style="margin-top: 20px;" v-if="dataLoaded">
           <a-button type="dashed" style="width: 100%" @click="addShortLink">
             <template #icon><PlusOutlined /></template>
             添加新短链接
@@ -53,7 +54,10 @@
             </a-form-item>
           </a-col>
           <a-col :span="6">
-            <a-button :loading="isLoading" type="primary" @click="onSubmit">提交</a-button>
+            {{ dataLoaded }}
+            <a-button :loading="isLoading" type="primary" @click="handleButtonClick">
+              {{ dataLoaded ? '提交' : '拉取' }}
+            </a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -83,6 +87,8 @@ const shortUrlState = reactive({
 
 // 用于拖拽排序的项目数组
 const shortUrlItems = ref([]);
+// 标记数据是否已加载
+const dataLoaded = ref(false);
 
 // 从对象转换为拖拽排序所需的数组格式
 const convertToItems = (dataObj) => {
@@ -119,25 +125,50 @@ const removeShortLink = (index) => {
 // 加载数据
 const isLoading = ref(false);
 
+// 从本地存储中获取密码
 onMounted(() => {
+  const savedPassword = localStorage.getItem('shortUrlPassword');
+  if (savedPassword) {
+    shortUrlState.password = savedPassword;
+    fetchData(); // 如果有保存的密码，自动拉取数据
+  }
+});
+
+// 拉取数据函数
+const fetchData = () => {
+  // 验证密码
+  if (!shortUrlState.password) {
+    message.error("请输入密码");
+    return;
+  }
+  
+  // 保存密码到本地存储
+  localStorage.setItem('shortUrlPassword', shortUrlState.password);
+  
+  isLoading.value = true;
   message.loading("数据加载中...", 0);
-  fetch('/api/admin')
+  
+  fetch(`https://tuo.icodeq.com/api/admin?password=${encodeURIComponent(shortUrlState.password)}`)
     .then(response => response.json())
     .then(data => {
+      isLoading.value = false;
       message.destroy();
+      
       if (data.code === 200) {
         message.success("数据加载成功");
         shortUrlState.data = data.data;
         shortUrlItems.value = convertToItems(data.data);
+        dataLoaded.value = true; // 标记数据已加载
       } else {
         message.error(data.message || "加载失败");
       }
     })
     .catch(error => {
+      isLoading.value = false;
       message.destroy();
       message.error("数据加载失败: " + error.message);
     });
-});
+};
 
 // 提交数据
 const onSubmit = () => {
@@ -169,7 +200,7 @@ const onSubmit = () => {
 
   isLoading.value = true;
 
-  fetch('/api/admin', {
+  fetch('https://tuo.icodeq.com/api/admin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -191,6 +222,15 @@ const onSubmit = () => {
     isLoading.value = false;
     message.error("提交失败: " + error.message);
   });
+};
+
+// 处理按钮点击事件
+const handleButtonClick = () => {
+  if (dataLoaded.value) {
+    onSubmit();
+  } else {
+    fetchData();
+  }
 };
 </script>
 

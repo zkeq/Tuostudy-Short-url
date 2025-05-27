@@ -13,7 +13,7 @@ auth = Auth.Token(os.getenv("GITHUB_TOKEN"))
 def get_data(path):
     g = Github(auth=auth)
     # Then play with your Github objects:
-    repo = g.get_repo("zkeq/ai-home")
+    repo = g.get_repo("Tuostudy-Short-url")
     contents = repo.get_contents(path)
     # base64解码
     content = json.loads(contents.decoded_content.decode('utf-8'))
@@ -25,7 +25,7 @@ def get_data(path):
 
 def post_data(path, data, message, branch="main"):
     g = Github(auth=auth)
-    repo = g.get_repo("zkeq/ai-home")
+    repo = g.get_repo("Tuostudy-Short-url")
     contents = repo.get_contents(path, ref=branch)
     
     # Ensure data is in the correct format
