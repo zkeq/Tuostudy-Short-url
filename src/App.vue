@@ -54,7 +54,6 @@
             </a-form-item>
           </a-col>
           <a-col :span="6">
-            {{ dataLoaded }}
             <a-button :loading="isLoading" type="primary" @click="handleButtonClick">
               {{ dataLoaded ? '提交' : '拉取' }}
             </a-button>
