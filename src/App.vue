@@ -1,0 +1,224 @@
+<template>
+  <div>
+    <a-card title="短链接管理" :bordered="false" class="app">
+      <a-form
+        ref="formRef"
+        :model="shortUrlState"
+        :validateOnRuleChange="false"
+      >
+        <!-- 短链接列表 -->
+        <a-table 
+          :dataSource="shortUrlItems" 
+          :pagination="false"
+          rowKey="key"
+        >
+          <a-table-column title="短链接名称" key="key">
+            <template #default="{ record }">
+              <a-input v-model:value="record.key" placeholder="输入短链接名称，如：vip" />
+            </template>
+          </a-table-column>
+          <a-table-column title="目标链接" key="value" :width="600">
+            <template #default="{ record }">
+              <a-input v-model:value="record.value" placeholder="输入完整链接地址，如：https://example.com/path" />
+            </template>
+          </a-table-column>
+          <a-table-column title="操作" key="action" :width="100">
+            <template #default="{ record, index }">
+              <a-button 
+                type="danger" 
+                shape="circle"
+                @click="removeShortLink(index)"
+              >
+                <template #icon><DeleteOutlined /></template>
+              </a-button>
+            </template>
+          </a-table-column>
+        </a-table>
+
+        <a-form-item style="margin-top: 20px;">
+          <a-button type="dashed" style="width: 100%" @click="addShortLink">
+            <template #icon><PlusOutlined /></template>
+            添加新短链接
+          </a-button>
+        </a-form-item>
+
+        <a-divider />
+
+        <a-row :gutter="24">
+          <a-col :span="6">
+          </a-col>
+          <a-col :span="10">
+            <a-form-item ref="passwordRef" label="发布密码" name="password">
+              <a-input v-model:value="shortUrlState.password" type="password" placeholder="请输入发布密码" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-button :loading="isLoading" type="primary" @click="onSubmit">提交</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-card>
+  </div>
+</template>
+
+<script setup>
+import { reactive, ref, onMounted } from "vue";
+import { message, Card as ACard, Form as AForm, Input as AInput, Switch as ASwitch, Divider as ADivider, Button as AButton, Row as ARow, Col as ACol, Textarea as ATextarea, Table as ATable, TableColumn as ATableColumn } from "ant-design-vue";
+import { 
+  PlusOutlined, 
+  DeleteOutlined, 
+  MenuOutlined 
+} from '@ant-design/icons-vue';
+import draggable from 'vuedraggable';
+
+// 状态管理
+const shortUrlState = reactive({
+  data: {},
+  notice: {
+    text: "",
+    show: false
+  },
+  password: ""
+});
+
+// 用于拖拽排序的项目数组
+const shortUrlItems = ref([]);
+
+// 从对象转换为拖拽排序所需的数组格式
+const convertToItems = (dataObj) => {
+  return Object.entries(dataObj).map(([key, value]) => ({
+    key,
+    value
+  }));
+};
+
+// 从拖拽排序数组转换回对象格式
+const convertToObject = (items) => {
+  const result = {};
+  items.forEach(item => {
+    if (item.key.trim() !== '') {
+      result[item.key] = item.value;
+    }
+  });
+  return result;
+};
+
+// 添加新短链接
+const addShortLink = () => {
+  shortUrlItems.value.push({
+    key: "",
+    value: ""
+  });
+};
+
+// 删除短链接
+const removeShortLink = (index) => {
+  shortUrlItems.value.splice(index, 1);
+};
+
+// 加载数据
+const isLoading = ref(false);
+
+onMounted(() => {
+  message.loading("数据加载中...", 0);
+  fetch('/api/admin')
+    .then(response => response.json())
+    .then(data => {
+      message.destroy();
+      if (data.code === 200) {
+        message.success("数据加载成功");
+        shortUrlState.data = data.data;
+        shortUrlItems.value = convertToItems(data.data);
+      } else {
+        message.error(data.message || "加载失败");
+      }
+    })
+    .catch(error => {
+      message.destroy();
+      message.error("数据加载失败: " + error.message);
+    });
+});
+
+// 提交数据
+const onSubmit = () => {
+  // 验证密码
+  if (!shortUrlState.password) {
+    message.error("请输入密码");
+    return;
+  }
+
+  // 验证所有短链接
+  const hasEmptyFields = shortUrlItems.value.some(
+    item => !item.key.trim() || !item.value.trim()
+  );
+  
+  if (hasEmptyFields) {
+    message.error("存在未填写完整的短链接，请检查");
+    return;
+  }
+
+  // 组装提交数据
+  const updatedData = convertToObject(shortUrlItems.value);
+  
+  const postData = {
+    new_data: updatedData,
+    notice: shortUrlState.notice,
+    password: shortUrlState.password,
+    message: "更新短链接: " + new Date().toLocaleString()
+  };
+
+  isLoading.value = true;
+
+  fetch('/api/admin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(postData)
+  })
+  .then(response => response.json())
+  .then(result => {
+    isLoading.value = false;
+    if (result.code === 200) {
+      message.success("提交成功，短链接已更新");
+      shortUrlState.data = result.data;
+      shortUrlItems.value = convertToItems(result.data);
+    } else {
+      message.error(result.message || "提交失败");
+    }
+  })
+  .catch(error => {
+    isLoading.value = false;
+    message.error("提交失败: " + error.message);
+  });
+};
+</script>
+
+<style scoped>
+.app {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.short-link-item {
+  position: relative;
+  padding: 16px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  background-color: #fafafa;
+}
+
+.drag-handle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: #999;
+  cursor: move;
+  font-size: 16px;
+}
+
+.delete-btn {
+  margin-top: 30px;
+}
+</style>

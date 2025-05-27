@@ -1,181 +1,29 @@
-#### 🚀自己写的短链网址前后端源码🚀 (目前已直接对接 oss）
+# .
 
-###### [目前已支持使用 `notion` 的 `database` 做数据源]
+This template should help get you started developing with Vue 3 in Vite.
 
-###### [目前已支持 Python 函数 直接进行 308 跳转 🚀]
+## Recommended IDE Setup
 
-###### [如果域名有备案推荐使用 308 跳转（腾讯云函数）]
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-> 示例地址： http://tuo.icodeq.com/dream
+## Customize configuration
 
-##### 界面
+See [Vite Configuration Reference](https://vite.dev/config/).
 
-![1](https://p18.qhimg.com/t01220de52b24dc1415.png)
+## Project Setup
 
-##### 原理
-
-- 新版原理为 `vercel` 获取到数据，然后 308 跳转 （用旧版的话把 `index-location` 改成 `index` 就行了。
-
->    - 原理很简单，就是利用 `404 页面` 会捕获所有请求这一特性
->
->    - 然后再用 `window.location.href` 获取到当前访问的 `url`
->
->    - 接着去获取一个 `json` 文件，利用上面的当前访问 `url` 查字典，查不到就跳转到默认主页
->
->    - 查到字典了就 `window.location.replace()`
-
-##### Json 格式 (专门写了一个工具来生成和维护这个数据，见 [Releases](https://github.com/zkeq/Tuostudy-Short-url/releases) )
-
-```JSON
-{
-	"dream": "https://dream-plan.cn/",
-	"abcd": "https://tuostudy.vercel.app/api?path=/📺 020# 单词视频/📁 扇贝单词（新）/托福中级.mp4&raw=true",
-	"abcde": "https://tuostudy.vercel.app/📺 020# 单词视频/📁 官方原版（同步）/📁 人教版高中英语单词必修1~选修11",
-	"test": "https://tuostudy.vercel.app/🔊 030# 课本音频/📁 英语",
-	"test2": "https://tuostudy.vercel.app/🔊 030# 课本音频/📁 英语/📁 03# 高考听力/2019年",
-	"vip": "https://tuostudy.vercel.app/📺 020# 单词视频/📁 不背单词（超全）/📁 07# 固定搭配词组短语系列（付费）",
-	"vip1": "https://tuostudy.vercel.app/api?path=/📺 020# 单词视频/📁 不背单词（超全）/📁 07# 固定搭配词组短语系列（付费）/中考词组.mp4&raw=true",
-	"shanbei": "https://tuostudy.vercel.app/📜 050# 单词文本/📁 02# 扇贝单词（新）/",
-	"xiaoxuetxt": "https://tuostudy.vercel.app/📜 050# 单词文本/📁 01# 墨墨单词（超全）/📁 03# 带中文释义版/1.全国各大教材版本中小学同步/人教版/",
-	"xiaoxuemp3": "https://tuostudy.vercel.app/🔊 030# 课本音频/📁 英语/📁 01# 中小学同步单词课文录音/小学/人教版/"
-}
+```sh
+npm install
 ```
 
-##### 代码
+### Compile and Hot-Reload for Development
 
-- [zkeq/Tuostudy-Short-url: 短链服务 (github.com)](https://github.com/zkeq/Tuostudy-Short-url)
+```sh
+npm run dev
+```
 
-- [zkeq/Tuostudy-Short-url: 短链服务 (gitee.com)](https://gitee.com/zkeq/Tuostudy-Short-url)
+### Compile and Minify for Production
 
-#### 用法 
-
- - 新版文档用法为将 `/api/308/index.py` 中的 `OSS` 链接改成自己的然后部署至 `vercel` 就能用了
-
-##### 以下为旧版用法（`index-location`）
-
-> 1. 修改 `404.html` 和 `index.html` 中的这些部分 ( `url` 和 `long` 的值)
-> 
-> ```javascript
->    
->     ajax({
->             method: 'GET',
->             url: 'https://tuo-site.oss-cn-beijing.aliyuncs.com/data.json',
->             success: function (OriginalFromActivity) {
->                 //在这里对获取的数据经常操作
->                 console.log(OriginalFromActivity)
->                 url = window.location.href.split('/').pop()
->                 long = OriginalFromActivity[url]
->                 if(long === undefined) { // 只能用 === 运算来测试某个值是否是未定义的
->                      long = 'https://tuostudy.vercel.app'}
->                 console.log(long)
->                 window.location.replace(long)
->                 }
->  })
-> ```
-> 
-> 2. 修改 网页前端，改成自己喜欢的样子
-> 
-> 3. 将网页部署到 `github` 或者 `gitee` 或者 `vercel` 上面
-> 
-> 4. 打开 在 [图欧君短链生成器-v4.x](https://github.com/zkeq/Tuostudy-Short-url/releases) 下载的 `图欧君短链生成器-v4.x` , 或者直接运行 `/python-CLI` 目录下的源码
-> 
-> 5. 根据提示开始添加短链 （ `OSS` 详情设置请参阅官网配置，若不是使用的 `OSS` ，请使用 `local` 版本）
-> 
-> ```cmd
-> 本工具有四种模式
-> 
-> 1. 自定义生成短链
-> 2. 设置要生成的短链位数 ，自动生成短链
-> 3. 删除或修改短链模式
-> 4. 查阅模式（只读模式）
-> 0. 退出
-> ```
-> 
-> 6. ~添加短链完成后将 `data.json` 文件传到 `Github` 或者 `Gitee` 或者 `Vercel` 或者 `OSS` 或者随便一个云存储~
-> 
-> 6. 本工具自动同步 oss ，详情参阅  https://github.com/zkeq/Tuostudy-Short-url/releases/tag/v4.0.0 🚀🚀🚀🚀
-> 
-> 7. 请确保你第六步上传数据得到的 `url` 可以直接访问并且第一步填写的 `url` 中的值完全一样 
-> 
-> 8. (下文有 `notion` 做数据源）
->
-> 9. 🚀 enjoy 🚀
-
-#### 后续维护
-
-- 请在 `图欧君短链生成器-v4.x` 中进行后续操作。
-
-#### 另一种思路（不大推荐）
-
-- 利用 `vercel` 的云函数，使用 `python` 渲染完成文件后返回前端
-
-- 相关源码：[zkeq/Tuostudy-Short-url: 短链服务 (github.com)](https://github.com/zkeq/Tuostudy-Short-url/tree/main/api)
-
-### 使用 `notion` 的 `database` 做数据源
-
-[Notion 模板：你也可以试着修改这个数据库来增加记录](https://zkeq.notion.site/0ff3d88f8ba143ea869bb2da7c9236c7?v=b5e44e122f524d56a3e331526dd2d935)
-
-1. 创建一张 `database` 表（注意格式. 字段：`Short:str` `url:url` )；创建一个集成；给集成加 `读权限`
-
-2. 获取到你的 notion `sk`
-
-3. 将 `SK` 和 `database` 的 `id`  填入 `/api/notion/index.py` 中
-
-4. `databese` 数据表格式如下图
-
-![2](https://p19.qhimg.com/t0151751b6a75ac7c22.png)
-
-5. 直接访问 `/api/notion/?dream` 即可跳转（后端渲染完成后返回）
-具体参见：**[/api/notion](https://github.com/zkeq/Tuostudy-Short-url/tree/main/api/notion)** 
-
-6. 或使用 `/api/notion-back-json` 做数据源（后端只做数据库）
-具体参见：**[/api/notion-back-json](https://github.com/zkeq/Tuostudy-Short-url/tree/main/api/notion-back-json)** 
-
-7. 数据源返回示例 https://tuo.icodeq.com/api/notion-back-json
-
-
-### 直接使用 308 跳转 `/api/308`
-
-1. 将 `/api/308` 目录下的函数部署至 `vercel` 或 `腾讯云函数` 
-
-2. 自行选用数据库对接
-
-3. 有备案域名的话更推荐 `腾讯云函数` 因为链接很干净
-
-4. 而 `vercel` 的话，应该是要把函数文件放在 `api` 目录下才会生效，那么链接就变长了一点，不够优雅
-
-5. 腾讯云不备案生成的链接就是个笑话
-
-6. 你管这玩意叫短链？😂 https://service-cetfbmjm-1303831731.gz.apigw.tencentcs.com/release/helloworld-1645706447/dream
-
-> 注：这里的腾讯云和 `notion` 可以分别替代 `vercel` 和 `OSS` 具体用法自行理解。
-
-
-> `vercel` 示例: https://tuo.icodeq.com/api/308?dream
-
-### 接口示例
-
-| 序号 | 说明                   | 示例                                       |
-| :--: | ---------------------- | ------------------------------------------ |
-|  1   | 404根目录主链接 | http://tuo.icodeq.com/dream |
-|  2   | 根目录索引 | http://tuo.icodeq.com/?dream  |
-|  3   | vercel-oss-api | http://tuo.icodeq.com/api/?dream  |
-|  3   | vercel-notion-api | http://tuo.icodeq.com/api/notion/?dream  |
-
-
-#### 源码以及相关链接
-
-| 序号 | 说明                   | 链接                                       |
-| :--: | ---------------------- | ------------------------------------------ |
-|  1   | `Github` 仓库 (会更新) | https://github.com/zkeq/Tuostudy-Short-url |
-|  2   | `Gitee` 仓库 (会更新)  | https://gitee.com/zkeq/Tuostudy-Short-url  |
-|  3   | 本文PDF格式     | https://lanzoul.com/iDzgM003x1yh  |
-
-### 赞助
-
-感谢 `JetBrains` 为本项目提供的许可证。
-
-<a href="https://jb.gg/OpenSourceSupport">
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="8%"/>
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.png" alt="PyCharm logo." width="25%">
-</a>
+```sh
+npm run build
+```

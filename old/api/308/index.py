@@ -4,27 +4,19 @@ import requests
 # 引入 url 编码
 import urllib.parse
 from http.server import BaseHTTPRequestHandler
-import os
 
 # 这个文件针对 vercel 开发，但是 vercel 要放在 /api 这个目录下面才会当做 函数 执行，总感觉不够优雅
 # 有域名的话推荐同目录下的那个腾讯云函数的方式
 
 
 def get_308(name):
-    # 修改为读取本地文件
-    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'data.json')
+    url = 'http://tuo-site.oss-cn-beijing.aliyuncs.com/data.json'  # 当然，这个数据源也可以换成 Notion 那个，其实就是把那个函数复制过来，我就不写了
+    r = requests.get(url, headers={'referer': 'https://tuo.icodeq.com/'})
+    _data = json.loads(r.text)
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            _data = json.load(f)
-        
-        try:
-            url = _data[name]
-        except KeyError:
-            url = 'https://tuo.icodeq.com/'
-    except Exception as e:
-        print(f"读取本地文件出错: {e}")
+        url = _data[name]
+    except KeyError:
         url = 'https://tuo.icodeq.com/'
-        
     print('获取到的原始链接为: ', urllib.parse.unquote(url))
     url = urllib.parse.quote(url, safe='/:?=&%20')
     return url
