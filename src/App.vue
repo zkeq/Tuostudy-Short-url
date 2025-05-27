@@ -11,7 +11,6 @@
           :dataSource="shortUrlItems" 
           :pagination="false"
           rowKey="key"
-          v-if="dataLoaded"
         >
           <a-table-column title="短链接名称" key="key">
             <template #default="{ record }">
