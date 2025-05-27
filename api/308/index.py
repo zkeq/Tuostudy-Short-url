@@ -6,10 +6,6 @@ import urllib.parse
 from http.server import BaseHTTPRequestHandler
 import os
 
-# 这个文件针对 vercel 开发，但是 vercel 要放在 /api 这个目录下面才会当做 函数 执行，总感觉不够优雅
-# 有域名的话推荐同目录下的那个腾讯云函数的方式
-
-
 def get_308(name):
     # 修改为读取本地文件
     file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'data.json')
