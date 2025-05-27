@@ -1,8 +1,12 @@
 {
     "rewrites": [
       {
-        "source": "/",
+        "source": "/setting",
         "destination": "/"
+      },
+      {
+        "source": "/",
+        "destination": "/api/308"
       },
       {
         "source": "/:path*",

@@ -122,8 +122,8 @@ const convertToObject = (items) => {
   const result = {};
   items.forEach(item => {
     if (item.key.trim() !== '') {
-      // 提交时使用编码后的URL
-      result[item.key] = encodeUrl(item.decodedValue);
+      // 提交时使用编码后的URL，如果decodedValue为空，则使用空字符串
+      result[item.key] = item.decodedValue ? encodeUrl(item.decodedValue) : '';
     }
   });
   return result;
@@ -141,6 +141,19 @@ const addShortLink = () => {
 // 删除短链接
 const removeShortLink = (index) => {
   shortUrlItems.value.splice(index, 1);
+};
+
+// 验证短链接数据
+const validateShortUrlItems = () => {
+  const invalidItems = shortUrlItems.value.filter(
+    item => !item.decodedValue?.trim() // 只验证decodedValue不为空，允许key为空
+  );
+  
+  if (invalidItems.length > 0) {
+    console.log('无效的短链接项:', invalidItems);
+    return false;
+  }
+  return true;
 };
 
 // 加载数据
@@ -200,12 +213,17 @@ const onSubmit = () => {
   }
 
   // 验证所有短链接
-  const hasEmptyFields = shortUrlItems.value.some(
-    item => !item.key.trim() || !item.decodedValue.trim()
-  );
+  console.log('提交前的短链接数据:', JSON.stringify(shortUrlItems.value));
   
-  if (hasEmptyFields) {
-    message.error("存在未填写完整的短链接，请检查");
+  // 确保所有项都有decodedValue属性
+  shortUrlItems.value.forEach(item => {
+    if (!item.hasOwnProperty('decodedValue')) {
+      item.decodedValue = item.value ? decodeUrl(item.value) : '';
+    }
+  });
+  
+  if (!validateShortUrlItems()) {
+    message.error("存在未填写目标链接的项，请检查");
     return;
   }
 
@@ -232,7 +250,7 @@ const onSubmit = () => {
   .then(result => {
     isLoading.value = false;
     if (result.code === 200) {
-      message.success("提交成功，短链接已更新 2分钟上线");
+      message.success("提交成功，短链接已更新，2分钟上线");
       shortUrlState.data = result.data;
       shortUrlItems.value = convertToItems(result.data);
     } else {
