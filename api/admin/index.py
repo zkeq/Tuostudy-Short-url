@@ -8,6 +8,8 @@ from github import Auth
 import os
 
 auth = Auth.Token(os.getenv("GITHUB_TOKEN"))
+
+PASSWORD = os.getenv("PASSWORD")
     
 
 def get_data(path):
@@ -64,7 +66,7 @@ class handler(BaseHTTPRequestHandler):
         
         password = query_components.get('password', '')
         
-        if password != "ai-home-short":
+        if password != PASSWORD:
             self.send_response(400)
             self._send_cors_headers()
             self.send_header('Content-type', 'application/json')
@@ -96,7 +98,7 @@ class handler(BaseHTTPRequestHandler):
         # 将数据从 JSON 格式转换为 Python 对象
         data = json.loads(post_json)
         try:
-            if data["password"] != "ai-home-short":
+            if data["password"] != PASSWORD:
                 response = {
                     "code": 400,
                     "message": "密码错误"
